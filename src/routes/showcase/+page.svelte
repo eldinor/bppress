@@ -88,7 +88,7 @@
 	.hero p:last-child {
 		margin-top: 1rem;
 		line-height: 1.8;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 
 	.showcase-grid {
@@ -111,7 +111,7 @@
 	.callout p {
 		margin-top: 0.85rem;
 		line-height: 1.75;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 
 	.callout {

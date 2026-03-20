@@ -66,7 +66,7 @@
 	.lede {
 		margin-top: 1rem;
 		line-height: 1.8;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 
 	.contact-grid {
@@ -92,6 +92,6 @@
 	.card p {
 		margin-top: 0.85rem;
 		line-height: 1.75;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 </style>

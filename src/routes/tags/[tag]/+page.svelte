@@ -9,18 +9,17 @@
 </script>
 
 <svelte:head>
-	<title>Blog | BP Press</title>
+	<title>{data.tag.name} | Tags | BP Press</title>
+	<meta name="description" content={`Posts tagged ${data.tag.name} on BP Press.`} />
 </svelte:head>
 
 <div class="wrap">
+	<a class="back" href="/tags">Back to tags</a>
+
 	<header>
-		<p class="eyebrow">Blog</p>
-		<h1>Stories, experiments, and embedded 3D scenes.</h1>
-		<p>
-			Each post is authored in Markdown with Svelte component support, so interactive content can
-			live naturally inside the article.
-		</p>
-		<a class="tag-link" href="/tags">Browse tags</a>
+		<p class="eyebrow">Tag archive</p>
+		<h1>{data.tag.name}</h1>
+		<p>{data.tag.count} {data.tag.count === 1 ? 'post' : 'posts'} filed under this topic.</p>
 	</header>
 
 	<section class="list">
@@ -45,11 +44,18 @@
 	.wrap {
 		max-width: 900px;
 		margin: 0 auto;
-		padding: 4rem 1.5rem 5rem;
+		padding: 2rem 1.5rem 5rem;
+	}
+
+	.back {
+		display: inline-block;
+		margin-bottom: 1.2rem;
+		text-decoration: none;
+		color: var(--muted-foreground);
 	}
 
 	header {
-		max-width: 42rem;
+		max-width: 40rem;
 	}
 
 	.eyebrow {
@@ -61,24 +67,21 @@
 		color: var(--accent);
 	}
 
-	h1 {
+	h1,
+	h2,
+	p {
 		margin: 0;
-		font-size: clamp(2.6rem, 6vw, 4.8rem);
-		line-height: 0.96;
+	}
+
+	h1 {
+		font-size: clamp(2.6rem, 6vw, 4.2rem);
+		line-height: 0.98;
 	}
 
 	header p:last-child {
-		font-size: 1.05rem;
-		line-height: 1.7;
+		margin-top: 0.9rem;
+		line-height: 1.75;
 		color: var(--muted-foreground);
-	}
-
-	.tag-link {
-		display: inline-block;
-		margin-top: 1.1rem;
-		text-decoration: none;
-		color: var(--primary);
-		font-weight: 600;
 	}
 
 	.list {
@@ -95,20 +98,14 @@
 		box-shadow: var(--shadow);
 	}
 
-	article p,
-	h2 {
-		margin: 0;
-	}
-
-	article p:first-child,
-	.tags {
+	article p:first-child {
 		color: var(--muted-foreground);
 		font-size: 0.9rem;
 	}
 
 	h2 {
 		margin-top: 0.35rem;
-		font-size: 1.6rem;
+		font-size: 1.55rem;
 	}
 
 	h2 a {
@@ -134,5 +131,6 @@
 		background: var(--accent-soft);
 		color: var(--primary);
 		text-decoration: none;
+		font-size: 0.92rem;
 	}
 </style>

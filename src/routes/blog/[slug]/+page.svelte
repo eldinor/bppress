@@ -1,3 +1,7 @@
+<script module lang="ts">
+	import { slugifyTag } from '$lib/content/posts';
+</script>
+
 <script lang="ts">
 	import type { PageData } from './$types';
 
@@ -17,6 +21,13 @@
 			<p>{data.post.date}</p>
 			<h1>{data.post.title}</h1>
 			<p>{data.post.excerpt}</p>
+			{#if data.post.tags?.length}
+				<div class="tags">
+					{#each data.post.tags as tag}
+						<a href={`/tags/${slugifyTag(tag)}`}>{tag}</a>
+					{/each}
+				</div>
+			{/if}
 		</header>
 
 		<div class="content">
@@ -36,7 +47,7 @@
 		display: inline-block;
 		margin-bottom: 1.2rem;
 		text-decoration: none;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 
 	.post {
@@ -67,7 +78,24 @@
 		margin-top: 1rem;
 		font-size: 1.08rem;
 		line-height: 1.7;
-		color: var(--muted);
+		color: var(--muted-foreground);
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 1rem;
+	}
+
+	.tags a {
+		padding: 0.35rem 0.75rem;
+		border-radius: 999px;
+		background: var(--accent-soft);
+		color: var(--primary);
+		text-decoration: none;
+		font-size: 0.92rem;
+		font-weight: 500;
 	}
 
 	.content {

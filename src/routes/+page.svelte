@@ -165,17 +165,20 @@
 
 <style>
 	.page {
-		max-width: 1120px;
-		margin: 0 auto;
-		padding: 3.5rem 1.5rem 5rem;
+		width: 100%;
+		max-width: none;
+		margin: 0;
+		padding: 3.5rem 0 5rem;
 	}
 
 	.hero {
+		max-width: 1240px;
+		margin: 0 auto;
 		display: grid;
 		grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.8fr);
 		gap: 1.25rem;
 		align-items: stretch;
-		padding-top: 1.2rem;
+		padding: 1.2rem 1.5rem 0;
 	}
 
 	.eyebrow {
@@ -206,7 +209,7 @@
 		margin-top: 1.35rem;
 		font-size: 1.12rem;
 		line-height: 1.8;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 
 	.actions,
@@ -221,7 +224,7 @@
 		padding: 0.95rem 1.35rem;
 		border: 1px solid var(--line);
 		border-radius: 999px;
-		background: rgba(255, 255, 255, 0.72);
+		background: color-mix(in srgb, var(--card) 88%, transparent);
 		text-decoration: none;
 		transition:
 			transform 160ms ease,
@@ -236,9 +239,9 @@
 	}
 
 	.primary {
-		background: linear-gradient(135deg, #66b2ff, #1976d2);
+		background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 82%, black));
 		border-color: transparent;
-		color: white;
+		color: var(--primary-foreground);
 	}
 
 	.metrics {
@@ -273,7 +276,7 @@
 	.metric span {
 		display: block;
 		margin-top: 0.45rem;
-		color: var(--muted);
+		color: var(--muted-foreground);
 		line-height: 1.5;
 	}
 
@@ -284,7 +287,7 @@
 		padding: 1.6rem;
 		border-radius: 1.8rem;
 		background:
-			linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 247, 255, 0.96)),
+			linear-gradient(180deg, color-mix(in srgb, var(--card) 98%, white), color-mix(in srgb, var(--accent) 35%, white)),
 			var(--surface);
 	}
 
@@ -305,7 +308,7 @@
 	.hero-card p:nth-of-type(2) {
 		margin-top: 0.9rem;
 		line-height: 1.75;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 
 	.hero-meta {
@@ -313,7 +316,7 @@
 		flex-wrap: wrap;
 		gap: 0.6rem;
 		margin-top: 1rem;
-		color: var(--muted);
+		color: var(--muted-foreground);
 		font-size: 0.9rem;
 	}
 
@@ -326,17 +329,20 @@
 	.hero-card a,
 	.text-link {
 		margin-top: 1.2rem;
-		color: #1976d2;
+		color: var(--primary);
 		text-decoration: none;
 		font-weight: 600;
 	}
 
 	.section {
+		max-width: 1240px;
+		margin-left: auto;
+		margin-right: auto;
 		margin-top: 1.25rem;
 		padding: 2rem;
 		border: 1px solid var(--line);
 		border-radius: 2rem;
-		background: rgba(255, 255, 255, 0.74);
+		background: color-mix(in srgb, var(--card) 90%, transparent);
 		backdrop-filter: blur(12px);
 	}
 
@@ -349,7 +355,7 @@
 		margin-top: 1rem;
 		max-width: 36rem;
 		line-height: 1.75;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 
 	.section-heading.row {
@@ -378,7 +384,7 @@
 	.feature-card p {
 		margin-top: 0.8rem;
 		line-height: 1.7;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 
 	.split {
@@ -413,14 +419,14 @@
 		height: 2.4rem;
 		border-radius: 999px;
 		background: var(--accent-soft);
-		color: #1976d2;
+		color: var(--primary);
 		font-weight: 700;
 	}
 
 	.workflow-step p {
 		padding-top: 0.3rem;
 		line-height: 1.7;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 
 	.post-grid {
@@ -449,7 +455,7 @@
 
 	.post-card p:first-child {
 		font-size: 0.85rem;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 
 	.post-card h3 {
@@ -461,7 +467,7 @@
 	.post-card p:last-child {
 		margin-top: 0.8rem;
 		line-height: 1.65;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 
 	.empty-state {
@@ -475,11 +481,14 @@
 		justify-content: space-between;
 		gap: 1.5rem;
 		align-items: center;
+		max-width: 1240px;
+		margin-left: auto;
+		margin-right: auto;
 		margin-top: 1.25rem;
 		padding: 2rem;
 		border-radius: 2rem;
 		background:
-			linear-gradient(135deg, rgba(102, 178, 255, 0.12), rgba(255, 255, 255, 0.92)),
+			linear-gradient(135deg, color-mix(in srgb, var(--accent) 75%, white), color-mix(in srgb, var(--card) 92%, white)),
 			var(--surface);
 	}
 
@@ -487,7 +496,7 @@
 		margin-top: 0.9rem;
 		max-width: 42rem;
 		line-height: 1.75;
-		color: var(--muted);
+		color: var(--muted-foreground);
 	}
 
 	@media (max-width: 980px) {

@@ -12,3 +12,9 @@ export type PostMetadata = {
 export type Post = PostMetadata & {
 	component: Component;
 };
+
+export type TagSummary = {
+	name: string;
+	slug: string;
+	count: number;
+};

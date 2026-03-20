@@ -82,7 +82,7 @@
 		border: 1px solid rgba(102, 178, 255, 0.2);
 		border-radius: 1.25rem;
 		background:
-			linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 247, 255, 0.98)),
+			linear-gradient(180deg, color-mix(in srgb, var(--card) 98%, white), color-mix(in srgb, var(--accent) 30%, white)),
 			#fff;
 		box-shadow: 0 24px 60px rgba(19, 47, 76, 0.14);
 	}
