@@ -1,521 +1,682 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+  const logos = ["Northstar", "Datapoint", "Aperture", "Relay", "Granite", "Monarch"];
 
-	let { data }: { data: PageData } = $props();
+  const features = [
+    {
+      title: "Core Components",
+      description: "Ready-to-use UI building blocks for fast delivery across product surfaces and landing pages."
+    },
+    {
+      title: "Advanced Components",
+      description: "Data-heavy modules and workflow-ready patterns for teams building beyond the basics."
+    },
+    {
+      title: "Templates",
+      description: "Prebuilt starting points that help teams move from idea to launch with less setup friction."
+    },
+    {
+      title: "Design Kits",
+      description: "A shared system for design and engineering so decisions stay aligned while projects grow."
+    }
+  ];
 
-	const platformHighlights = [
-		{
-			title: 'Editorial publishing',
-			description:
-				'Publish clean Markdown-based stories with structured metadata, fast iteration, and a code-first workflow.'
-		},
-		{
-			title: 'Interactive storytelling',
-			description:
-				'Embed Babylon.js scenes directly into articles so product notes and technical posts can show, not just tell.'
-		},
-		{
-			title: 'Startup-ready foundation',
-			description:
-				'Use the same site for marketing pages, announcements, product updates, and a living news stream.'
-		}
-	];
+  const advantages = [
+    "Timeless aesthetics",
+    "Intuitive customization",
+    "Strong documentation",
+    "Accessibility-first approach"
+  ];
 
-	const workflowSteps = [
-		'Write the story in mdsvex with metadata, tags, and a clean URL slug.',
-		'Add interactive blocks only where they improve the explanation.',
-		'Publish the post into the same site shell that powers landing pages and company content.'
-	];
+  const stats = [
+    { value: "5.8M", label: "weekly downloads" },
+    { value: "93.9k", label: "GitHub stars" },
+    { value: "3k", label: "contributors" },
+    { value: "120+", label: "countries in the community" }
+  ];
 
-	const metrics = [
-		{ value: '1 site', label: 'for marketing, news, and experiments' },
-		{ value: '6 posts', label: 'already populating the content pipeline' },
-		{ value: 'MD + Svelte', label: 'for flexible authoring and components' }
-	];
+  const testimonials = [
+    {
+      quote: "We shipped a cleaner product surface in days, not weeks.",
+      name: "Anika Patel",
+      role: "Product Design Lead",
+      company: "Northstar"
+    },
+    {
+      quote: "The system feels structured enough for enterprise work without slowing the team down.",
+      name: "Jon Mercer",
+      role: "Frontend Engineering Manager",
+      company: "Relay"
+    },
+    {
+      quote: "The balance of polish and flexibility made it easy to scale across marketing and docs.",
+      name: "Mila Chen",
+      role: "Developer Experience Director",
+      company: "Granite"
+    }
+  ];
 </script>
 
 <svelte:head>
-	<title>BP Press</title>
-	<meta
-		name="description"
-		content="A startup-style publishing site with news, product storytelling, and Babylon.js-ready posts."
-	/>
+  <title>BP Press</title>
+  <meta
+    name="description"
+    content="Move faster with intuitive UI tools built around a polished, production-ready component system."
+  />
 </svelte:head>
 
-<div class="page">
-	<section class="hero">
-		<div class="hero-copy">
-			<p class="eyebrow">Publishing platform for product stories</p>
-			<h1>Turn a lightweight blog into a polished startup site with news and interactive demos.</h1>
-			<p class="lede">
-				BP Press combines a clean marketing shell, a structured content pipeline, and Babylon.js-ready
-				posts so product teams can publish updates, explain features, and ship visual stories from one
-				place.
-			</p>
-			<div class="actions">
-				<a class="button primary" href="/blog">Read the news</a>
-				<a class="button" href="/showcase">Explore the showcase</a>
-			</div>
-			<div class="metrics">
-				{#each metrics as metric}
-					<div class="metric">
-						<strong>{metric.value}</strong>
-						<span>{metric.label}</span>
-					</div>
-				{/each}
-			</div>
-		</div>
+<div class="frontpage">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Production-ready UI foundation</p>
+        <h1>Move faster with intuitive UI tools</h1>
+        <p class="hero-text">
+          Build polished, production-ready interfaces with a flexible component system and strong
+          customization foundations.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="/contact">Get started</a>
+          <a class="button button-secondary" href="/blog">View docs</a>
+        </div>
+      </div>
 
-		<div class="hero-card">
-			<p class="mini-label">Featured story</p>
-			{#if data.featuredPost}
-				<h2>{data.featuredPost.title}</h2>
-				<p>{data.featuredPost.excerpt}</p>
-				<div class="hero-meta">
-					<span>{data.featuredPost.date}</span>
-					{#if data.featuredPost.tags?.length}
-						<span>{data.featuredPost.tags[0]}</span>
-					{/if}
-				</div>
-				<a href={`/blog/${data.featuredPost.slug}`}>Open article</a>
-			{:else}
-				<h2>No featured post yet</h2>
-				<p>Add content in `src/lib/posts` and it will appear here automatically.</p>
-			{/if}
-		</div>
-	</section>
+      <div class="hero-visual" aria-label="Product preview">
+        <div class="window-chrome">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="visual-grid">
+          <article class="preview-card preview-primary">
+            <p>Component coverage</p>
+            <strong>Ready for product, docs, and dashboard flows</strong>
+          </article>
+          <article class="preview-card preview-metric">
+            <p>Theme tokens</p>
+            <strong>Palette, spacing, and responsive rules in one place</strong>
+          </article>
+          <article class="preview-card preview-code">
+            <code>Grid + Container + Stack = clean delivery</code>
+          </article>
+          <article class="preview-card preview-list">
+            <span>Core</span>
+            <span>Advanced</span>
+            <span>Templates</span>
+            <span>Design Kits</span>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
 
-	<section class="section">
-		<div class="section-heading">
-			<p class="eyebrow">Why this works</p>
-			<h2>A better front page for a content-driven startup site.</h2>
-		</div>
+  <section class="trust-strip">
+    <div class="container trust-inner">
+      <p>Trusted by product teams worldwide</p>
+      <div class="logo-row" aria-label="Trusted teams">
+        {#each logos as logo}
+          <span>{logo}</span>
+        {/each}
+      </div>
+    </div>
+  </section>
 
-		<div class="feature-grid">
-			{#each platformHighlights as item}
-				<article class="feature-card">
-					<h3>{item.title}</h3>
-					<p>{item.description}</p>
-				</article>
-			{/each}
-		</div>
-	</section>
+  <section class="section" id="products">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Product overview</p>
+        <h2>Main product pillars built for shipping fast</h2>
+        <p class="section-copy">
+          A clean, component-led system with enough depth for technical teams and enough polish
+          for customer-facing work.
+        </p>
+      </div>
 
-	<section class="section split">
-		<div class="section-heading narrow">
-			<p class="eyebrow">Workflow</p>
-			<h2>From announcement to article to interactive demo.</h2>
-			<p>
-				The site is designed to handle startup storytelling end to end. A post can begin as a simple
-				update and grow into a more visual experience without changing publishing tools.
-			</p>
-		</div>
+      <div class="feature-grid">
+        {#each features as feature}
+          <article class="card feature-card">
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </article>
+        {/each}
+      </div>
+    </div>
+  </section>
 
-		<div class="workflow-panel">
-			{#each workflowSteps as step, index}
-				<div class="workflow-step">
-					<span>{index + 1}</span>
-					<p>{step}</p>
-				</div>
-			{/each}
-		</div>
-	</section>
+  <section class="section section-soft">
+    <div class="container choose-grid">
+      <div class="section-heading compact">
+        <p class="eyebrow">Why choose us</p>
+        <h2>Built for clarity, scale, and customization</h2>
+        <p class="section-copy">
+          The experience stays calm and readable while giving teams enough range to build serious
+          product surfaces.
+        </p>
+      </div>
 
-	<section class="section">
-		<div class="section-heading row">
-			<div>
-				<p class="eyebrow">Latest news</p>
-				<h2>Recent posts and product-style updates.</h2>
-			</div>
-			<a class="text-link" href="/blog">View all posts</a>
-		</div>
+      <div class="advantage-grid">
+        {#each advantages as advantage}
+          <article class="card advantage-card">
+            <span class="advantage-dot"></span>
+            <h3>{advantage}</h3>
+          </article>
+        {/each}
+      </div>
+    </div>
+  </section>
 
-		{#if data.recentPosts.length}
-			<div class="post-grid">
-				{#each data.recentPosts as post}
-					<a class="post-card" href={`/blog/${post.slug}`}>
-						<p>{post.date}</p>
-						<h3>{post.title}</h3>
-						<p>{post.excerpt}</p>
-					</a>
-				{/each}
-			</div>
-		{:else}
-			<div class="empty-state">
-				<p>No posts yet.</p>
-			</div>
-		{/if}
-	</section>
+  <section class="section showcase-section" id="docs">
+    <div class="container showcase-grid">
+      <div class="section-heading compact">
+        <p class="eyebrow">Showcase</p>
+        <h2>Visual proof that the system feels polished in production</h2>
+        <p class="section-copy">
+          Large surfaces, measured spacing, and clear hierarchy make the front page feel ready for
+          real product work instead of a placeholder landing page.
+        </p>
+      </div>
 
-	<section class="cta">
-		<div>
-			<p class="eyebrow">Next step</p>
-			<h2>Keep building the site into a real startup presence.</h2>
-			<p>
-				The shell is now in place for landing pages, showcase content, and news. From here we can add
-				features, pricing, newsletter signup, SEO improvements, and a proper editorial structure.
-			</p>
-		</div>
-		<div class="cta-actions">
-			<a class="button primary" href="/about">Learn more</a>
-			<a class="button" href="/contact">Contact page</a>
-		</div>
-	</section>
+      <div class="showcase-frame">
+        <div class="showcase-panel showcase-panel-large">
+          <span>Enterprise-ready layout</span>
+          <strong>Consistent containers, balanced typography, and focused CTA paths.</strong>
+        </div>
+        <div class="showcase-metrics">
+          <div class="showcase-panel">
+            <span>Load path</span>
+            <strong>Clear navigation and section rhythm</strong>
+          </div>
+          <div class="showcase-panel">
+            <span>Customization</span>
+            <strong>Theme-friendly and component-driven</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pricing">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Community</p>
+        <h2>Signals of scale and credibility</h2>
+      </div>
+
+      <div class="stats-grid">
+        {#each stats as stat}
+          <article class="card stat-card">
+            <strong>{stat.value}</strong>
+            <span>{stat.label}</span>
+          </article>
+        {/each}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Testimonials</p>
+        <h2>Practical validation from teams shipping product work</h2>
+      </div>
+
+      <div class="testimonial-grid">
+        {#each testimonials as testimonial}
+          <article class="card testimonial-card">
+            <p class="quote">{testimonial.quote}</p>
+            <strong>{testimonial.name}</strong>
+            <span>{testimonial.role}, {testimonial.company}</span>
+          </article>
+        {/each}
+      </div>
+    </div>
+  </section>
 </div>
 
 <style>
-	.page {
-		width: 100%;
-		max-width: none;
-		margin: 0;
-		padding: 3.5rem 0 5rem;
-	}
+  .frontpage {
+    min-height: 100%;
+  }
 
-	.hero {
-		max-width: 1240px;
-		margin: 0 auto;
-		display: grid;
-		grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.8fr);
-		gap: 1.25rem;
-		align-items: stretch;
-		padding: 1.2rem 1.5rem 0;
-	}
+  .container {
+    width: min(100% - 2rem, var(--container-max));
+    margin: 0 auto;
+  }
 
-	.eyebrow {
-		margin: 0 0 1rem;
-		font-size: 0.8rem;
-		font-weight: 700;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		color: var(--accent);
-	}
+  .hero {
+    padding: clamp(5rem, 12vw, 7rem) 0 clamp(4rem, 8vw, 6rem);
+  }
 
-	h1,
-	h2,
-	h3,
-	p {
-		margin: 0;
-	}
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 34rem);
+    gap: 3rem;
+    align-items: center;
+  }
 
-	h1 {
-		max-width: 12ch;
-		font-size: clamp(3.2rem, 7vw, 5.8rem);
-		line-height: 0.94;
-		letter-spacing: -0.03em;
-	}
+  .hero-copy {
+    max-width: 35rem;
+  }
 
-	.lede {
-		max-width: 44rem;
-		margin-top: 1.35rem;
-		font-size: 1.12rem;
-		line-height: 1.8;
-		color: var(--muted-foreground);
-	}
+  .eyebrow {
+    margin: 0 0 1rem;
+    color: var(--primary-light);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
 
-	.actions,
-	.cta-actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.9rem;
-		margin-top: 1.8rem;
-	}
+  .hero-copy h1 {
+    margin: 0;
+    max-width: 10ch;
+  }
 
-	.button {
-		padding: 0.95rem 1.35rem;
-		border: 1px solid var(--line);
-		border-radius: 999px;
-		background: color-mix(in srgb, var(--card) 88%, transparent);
-		text-decoration: none;
-		transition:
-			transform 160ms ease,
-			border-color 160ms ease,
-			box-shadow 160ms ease;
-	}
+  .hero-text,
+  .section-copy {
+    color: var(--text-secondary);
+    max-width: 38rem;
+  }
 
-	.button:hover {
-		transform: translateY(-2px);
-		border-color: rgba(102, 178, 255, 0.45);
-		box-shadow: 0 12px 24px rgba(19, 47, 76, 0.08);
-	}
+  .hero-text {
+    margin-top: 1.5rem;
+    font-size: 1.125rem;
+  }
 
-	.primary {
-		background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 82%, black));
-		border-color: transparent;
-		color: var(--primary-foreground);
-	}
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
 
-	.metrics {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 0.9rem;
-		margin-top: 2rem;
-	}
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.875rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid transparent;
+    border-radius: var(--button-radius);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
+  }
 
-	.metric,
-	.hero-card,
-	.feature-card,
-	.workflow-panel,
-	.post-card,
-	.cta,
-	.empty-state {
-		border: 1px solid var(--line);
-		background: var(--surface);
-		box-shadow: var(--shadow);
-	}
+  .button:hover {
+    transform: translateY(-1px);
+  }
 
-	.metric {
-		padding: 1rem 1.1rem;
-		border-radius: 1.2rem;
-	}
+  .button-primary {
+    background: var(--primary-main);
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(25, 118, 210, 0.24);
+  }
 
-	.metric strong {
-		display: block;
-		font-size: 1.1rem;
-	}
+  .button-primary:hover {
+    background: var(--primary-dark);
+    color: #fff;
+  }
 
-	.metric span {
-		display: block;
-		margin-top: 0.45rem;
-		color: var(--muted-foreground);
-		line-height: 1.5;
-	}
+  .button-secondary {
+    border-color: var(--divider-strong);
+    background: var(--pill-bg);
+    color: var(--primary-light);
+  }
 
-	.hero-card {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		padding: 1.6rem;
-		border-radius: 1.8rem;
-		background:
-			linear-gradient(180deg, color-mix(in srgb, var(--card) 98%, white), color-mix(in srgb, var(--accent) 35%, white)),
-			var(--surface);
-	}
+  .button-secondary:hover {
+    border-color: rgba(66, 165, 245, 0.3);
+    background: rgba(66, 165, 245, 0.14);
+  }
 
-	.mini-label {
-		font-size: 0.78rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		color: var(--accent);
-	}
+  .hero-visual {
+    padding: 1.5rem;
+    border: 1px solid rgba(66, 165, 245, 0.14);
+    border-radius: 1.5rem;
+    background:
+      linear-gradient(135deg, rgba(25, 118, 210, 0.18), rgba(156, 39, 176, 0.12)),
+      var(--hero-panel-bg);
+    box-shadow: 0 24px 60px var(--shadow-color);
+  }
 
-	.hero-card h2 {
-		margin-top: 1rem;
-		font-size: 1.9rem;
-		line-height: 1.1;
-	}
+  .window-chrome {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
 
-	.hero-card p:nth-of-type(2) {
-		margin-top: 0.9rem;
-		line-height: 1.75;
-		color: var(--muted-foreground);
-	}
+  .window-chrome span {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.55);
+  }
 
-	.hero-meta {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.6rem;
-		margin-top: 1rem;
-		color: var(--muted-foreground);
-		font-size: 0.9rem;
-	}
+  .visual-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
 
-	.hero-meta span {
-		padding: 0.35rem 0.7rem;
-		border-radius: 999px;
-		background: var(--accent-soft);
-	}
+  .preview-card {
+    display: grid;
+    gap: 0.75rem;
+    min-height: 9rem;
+    padding: 1.25rem;
+    border: 1px solid var(--divider);
+    border-radius: 1rem;
+    background: var(--preview-card-bg);
+    box-shadow: var(--preview-card-inset);
+  }
 
-	.hero-card a,
-	.text-link {
-		margin-top: 1.2rem;
-		color: var(--primary);
-		text-decoration: none;
-		font-weight: 600;
-	}
+  .preview-card p,
+  .preview-card span,
+  .showcase-panel span {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
 
-	.section {
-		max-width: 1240px;
-		margin-left: auto;
-		margin-right: auto;
-		margin-top: 1.25rem;
-		padding: 2rem;
-		border: 1px solid var(--line);
-		border-radius: 2rem;
-		background: color-mix(in srgb, var(--card) 90%, transparent);
-		backdrop-filter: blur(12px);
-	}
+  .preview-card strong,
+  .showcase-panel strong {
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
 
-	.section-heading h2 {
-		font-size: clamp(2rem, 4vw, 3.3rem);
-		line-height: 1;
-	}
+  .preview-primary {
+    grid-column: span 2;
+    background: linear-gradient(135deg, rgba(25, 118, 210, 0.94), rgba(156, 39, 176, 0.9));
+    color: #fff;
+  }
 
-	.section-heading.narrow p:last-child {
-		margin-top: 1rem;
-		max-width: 36rem;
-		line-height: 1.75;
-		color: var(--muted-foreground);
-	}
+  .preview-primary p,
+  .preview-primary strong {
+    color: #fff;
+  }
 
-	.section-heading.row {
-		display: flex;
-		justify-content: space-between;
-		gap: 1rem;
-		align-items: end;
-	}
+  .preview-code {
+    align-content: end;
+    background: var(--code-bg);
+    color: var(--code-fg);
+  }
 
-	.feature-grid {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1rem;
-		margin-top: 1.8rem;
-	}
+  .preview-code code {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    white-space: normal;
+  }
 
-	.feature-card {
-		padding: 1.4rem;
-		border-radius: 1.5rem;
-	}
+  .preview-list {
+    align-content: start;
+  }
 
-	.feature-card h3 {
-		font-size: 1.2rem;
-	}
+  .preview-list span {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    background: var(--pill-bg);
+    color: var(--primary-light);
+  }
 
-	.feature-card p {
-		margin-top: 0.8rem;
-		line-height: 1.7;
-		color: var(--muted-foreground);
-	}
+  .trust-strip,
+  .section {
+    padding: clamp(4rem, 8vw, 6rem) 0;
+  }
 
-	.split {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-		gap: 1rem;
-		align-items: start;
-	}
+  .trust-strip {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+    background: rgba(66, 165, 245, 0.03);
+  }
 
-	.workflow-panel {
-		padding: 1.4rem;
-		border-radius: 1.5rem;
-	}
+  .trust-inner {
+    display: grid;
+    grid-template-columns: 16rem minmax(0, 1fr);
+    gap: 2rem;
+    align-items: center;
+  }
 
-	.workflow-step {
-		display: grid;
-		grid-template-columns: 2.4rem 1fr;
-		gap: 0.9rem;
-		align-items: start;
-	}
+  .trust-inner p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
 
-	.workflow-step + .workflow-step {
-		margin-top: 1rem;
-		padding-top: 1rem;
-		border-top: 1px solid var(--line);
-	}
+  .logo-row {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1rem;
+  }
 
-	.workflow-step span {
-		display: grid;
-		place-items: center;
-		width: 2.4rem;
-		height: 2.4rem;
-		border-radius: 999px;
-		background: var(--accent-soft);
-		color: var(--primary);
-		font-weight: 700;
-	}
+  .logo-row span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.5rem;
+    border-radius: 999px;
+    color: var(--logo-fg);
+    background: var(--logo-bg);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
 
-	.workflow-step p {
-		padding-top: 0.3rem;
-		line-height: 1.7;
-		color: var(--muted-foreground);
-	}
+  .section-soft {
+    background: var(--soft-section-bg);
+  }
 
-	.post-grid {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1rem;
-		margin-top: 1.6rem;
-	}
+  .section-heading {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
 
-	.post-card {
-		display: block;
-		padding: 1.35rem;
-		border-radius: 1.5rem;
-		text-decoration: none;
-		transition:
-			transform 160ms ease,
-			border-color 160ms ease,
-			box-shadow 160ms ease;
-	}
+  .section-heading.compact {
+    margin-bottom: 0;
+  }
 
-	.post-card:hover {
-		transform: translateY(-3px);
-		border-color: rgba(102, 178, 255, 0.42);
-		box-shadow: 0 18px 36px rgba(19, 47, 76, 0.12);
-	}
+  .section-heading h2 {
+    margin: 0;
+    max-width: 14ch;
+  }
 
-	.post-card p:first-child {
-		font-size: 0.85rem;
-		color: var(--muted-foreground);
-	}
+  .feature-grid,
+  .advantage-grid,
+  .stats-grid,
+  .testimonial-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
 
-	.post-card h3 {
-		margin-top: 0.45rem;
-		font-size: 1.28rem;
-		line-height: 1.2;
-	}
+  .feature-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 
-	.post-card p:last-child {
-		margin-top: 0.8rem;
-		line-height: 1.65;
-		color: var(--muted-foreground);
-	}
+  .choose-grid,
+  .showcase-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+  }
 
-	.empty-state {
-		padding: 1.5rem;
-		margin-top: 1.5rem;
-		border-radius: 1.4rem;
-	}
+  .advantage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
-	.cta {
-		display: flex;
-		justify-content: space-between;
-		gap: 1.5rem;
-		align-items: center;
-		max-width: 1240px;
-		margin-left: auto;
-		margin-right: auto;
-		margin-top: 1.25rem;
-		padding: 2rem;
-		border-radius: 2rem;
-		background:
-			linear-gradient(135deg, color-mix(in srgb, var(--accent) 75%, white), color-mix(in srgb, var(--card) 92%, white)),
-			var(--surface);
-	}
+  .card {
+    padding: 1.5rem;
+    border: 1px solid var(--divider);
+    border-radius: var(--card-radius);
+    background: var(--background-paper);
+    box-shadow: var(--card-shadow);
+  }
 
-	.cta p:last-of-type {
-		margin-top: 0.9rem;
-		max-width: 42rem;
-		line-height: 1.75;
-		color: var(--muted-foreground);
-	}
+  .feature-card,
+  .testimonial-card {
+    transition:
+      transform 160ms ease,
+      box-shadow 160ms ease,
+      border-color 160ms ease;
+  }
 
-	@media (max-width: 980px) {
-		.hero,
-		.split,
-		.cta,
-		.feature-grid,
-		.post-grid {
-			grid-template-columns: 1fr;
-		}
+  .feature-card:hover,
+  .testimonial-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(66, 165, 245, 0.32);
+    box-shadow: 0 18px 36px var(--shadow-color);
+  }
 
-		.metrics {
-			grid-template-columns: 1fr;
-		}
+  .feature-card h3,
+  .advantage-card h3,
+  .testimonial-card strong {
+    margin: 0;
+  }
 
-		.section-heading.row,
-		.cta {
-			align-items: start;
-			flex-direction: column;
-		}
-	}
+  .feature-card p,
+  .testimonial-card span {
+    margin: 0.75rem 0 0;
+    color: var(--text-secondary);
+  }
+
+  .advantage-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 7rem;
+  }
+
+  .advantage-dot {
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--primary-main), var(--secondary-main));
+    flex: 0 0 auto;
+  }
+
+  .showcase-frame {
+    display: grid;
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--divider);
+    border-radius: 1.5rem;
+    background:
+      radial-gradient(circle at top right, rgba(66, 165, 245, 0.14), transparent 28%),
+      var(--background-paper);
+    box-shadow: 0 18px 44px var(--shadow-color);
+  }
+
+  .showcase-panel {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    background: rgba(66, 165, 245, 0.08);
+    min-height: 8rem;
+  }
+
+  .showcase-panel-large {
+    min-height: 18rem;
+    align-content: end;
+    background: linear-gradient(135deg, rgba(25, 118, 210, 0.92), rgba(156, 39, 176, 0.88));
+    color: #fff;
+  }
+
+  .showcase-panel-large span,
+  .showcase-panel-large strong {
+    color: #fff;
+  }
+
+  .showcase-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .stat-card strong {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .stat-card span {
+    margin-top: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .testimonial-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .quote {
+    margin: 0 0 1.25rem;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 1199px) {
+    .feature-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .logo-row,
+    .stats-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 899px) {
+    .container {
+      width: min(100% - 3rem, var(--container-max));
+    }
+
+    .hero-grid,
+    .trust-inner,
+    .choose-grid,
+    .showcase-grid,
+    .feature-grid,
+    .advantage-grid,
+    .stats-grid,
+    .testimonial-grid,
+    .logo-row,
+    .showcase-metrics {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-copy h1 {
+      max-width: 11ch;
+    }
+
+    .hero-actions .button {
+      width: 100%;
+    }
+
+    .visual-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .preview-primary {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 599px) {
+    .container {
+      width: min(100% - 2rem, var(--container-max));
+    }
+  }
 </style>

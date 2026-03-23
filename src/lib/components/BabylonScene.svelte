@@ -79,12 +79,14 @@
 <style>
 	.scene-shell {
 		overflow: hidden;
-		border: 1px solid rgba(102, 178, 255, 0.2);
+		border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--line));
 		border-radius: 1.25rem;
 		background:
-			linear-gradient(180deg, color-mix(in srgb, var(--card) 98%, white), color-mix(in srgb, var(--accent) 30%, white)),
+			linear-gradient(180deg, color-mix(in srgb, var(--card) 98%, white), color-mix(in srgb, var(--accent) 38%, white)),
 			#fff;
-		box-shadow: 0 24px 60px rgba(19, 47, 76, 0.14);
+		box-shadow:
+			0 28px 64px -38px rgba(23, 64, 108, 0.28),
+			0 0 0 1px rgba(255, 255, 255, 0.65) inset;
 	}
 
 	.scene-header {
@@ -96,13 +98,13 @@
 		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		color: rgba(19, 47, 76, 0.7);
-		border-bottom: 1px solid rgba(102, 178, 255, 0.16);
+		color: color-mix(in srgb, var(--foreground) 60%, var(--primary));
+		border-bottom: 1px solid color-mix(in srgb, var(--primary) 18%, var(--line));
 	}
 
 	canvas {
 		display: block;
 		width: 100%;
-		background: linear-gradient(180deg, #dceeff, #f4f9ff);
+		background: linear-gradient(180deg, #dff1ff, #f8fbff 68%, #eef7ff);
 	}
 </style>

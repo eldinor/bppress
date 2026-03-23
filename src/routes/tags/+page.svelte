@@ -10,40 +10,57 @@
 </svelte:head>
 
 <div class="wrap">
-	<header>
-		<p class="eyebrow">Tags</p>
-		<h1>Browse the site by topic.</h1>
-		<p>Every tag collects related posts into a simple archive page.</p>
-	</header>
+	<section class="band">
+		<div class="page-inner">
+			<header>
+				<p class="eyebrow">Tags</p>
+				<h1>Browse the site by topic.</h1>
+				<p>Every tag collects related posts into a simple archive page.</p>
+			</header>
+		</div>
+	</section>
 
-	<section class="tag-grid">
-		{#each data.tags as tag}
-			<a class="tag-card" href={`/tags/${tag.slug}`}>
-				<strong>{tag.name}</strong>
-				<span>{tag.count} {tag.count === 1 ? 'post' : 'posts'}</span>
-			</a>
-		{/each}
+	<section class="band">
+		<div class="page-inner">
+			<div class="tag-grid">
+				{#each data.tags as tag}
+					<a class="tag-card" href={`/tags/${tag.slug}`}>
+						<strong>{tag.name}</strong>
+						<span>{tag.count} {tag.count === 1 ? 'post' : 'posts'}</span>
+					</a>
+				{/each}
+			</div>
+		</div>
 	</section>
 </div>
 
 <style>
 	.wrap {
-		max-width: 940px;
+		padding: 2.75rem 0 5rem;
+	}
+
+	.band {
+		width: 100%;
+		padding: 0.85rem 0;
+	}
+
+	.page-inner {
+		width: min(100%, var(--content-max));
 		margin: 0 auto;
-		padding: 4rem 1.5rem 5rem;
+		padding: 0 var(--page-padding);
 	}
 
 	header {
-		max-width: 40rem;
+		max-width: 56rem;
 	}
 
 	.eyebrow {
 		margin: 0 0 1rem;
-		font-size: 0.8rem;
-		font-weight: 700;
-		letter-spacing: 0.14em;
+		font-size: 0.9rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--primary);
 	}
 
 	h1,
@@ -54,8 +71,8 @@
 	}
 
 	h1 {
-		font-size: clamp(2.6rem, 6vw, 4.6rem);
-		line-height: 0.98;
+		font-size: clamp(2.5rem, 3vw + 1rem, 3.5rem);
+		line-height: 1.1;
 	}
 
 	header p:last-child {
@@ -66,16 +83,15 @@
 
 	.tag-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: 1rem;
-		margin-top: 2rem;
 	}
 
 	.tag-card {
 		display: block;
-		padding: 1.2rem;
+		padding: 1.4rem;
 		border: 1px solid var(--line);
-		border-radius: 1.4rem;
+		border-radius: 1.6rem;
 		background: var(--surface);
 		box-shadow: var(--shadow);
 		text-decoration: none;
@@ -90,5 +106,17 @@
 		display: block;
 		margin-top: 0.55rem;
 		color: var(--muted-foreground);
+	}
+
+	@media (max-width: 980px) {
+		.tag-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 640px) {
+		.tag-grid {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

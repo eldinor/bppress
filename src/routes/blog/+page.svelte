@@ -13,63 +13,81 @@
 </svelte:head>
 
 <div class="wrap">
-	<header>
-		<p class="eyebrow">Blog</p>
-		<h1>Stories, experiments, and embedded 3D scenes.</h1>
-		<p>
-			Each post is authored in Markdown with Svelte component support, so interactive content can
-			live naturally inside the article.
-		</p>
-		<a class="tag-link" href="/tags">Browse tags</a>
-	</header>
+	<section class="band">
+		<div class="page-inner hero">
+			<header>
+				<p class="eyebrow">Blog</p>
+				<h1>Stories, experiments, and embedded 3D scenes.</h1>
+				<p>
+					Each post is authored in Markdown with Svelte component support, so interactive content can
+					live naturally inside the article.
+				</p>
+				<a class="tag-link" href="/tags">Browse tags</a>
+			</header>
+		</div>
+	</section>
 
-	<section class="list">
-		{#each data.posts as post}
-			<article>
-				<p>{post.date}</p>
-				<h2><a href={`/blog/${post.slug}`}>{post.title}</a></h2>
-				<p>{post.excerpt}</p>
-				{#if post.tags?.length}
-					<div class="tags">
-						{#each post.tags as tag}
-							<a href={`/tags/${slugifyTag(tag)}`}>{tag}</a>
-						{/each}
-					</div>
-				{/if}
-			</article>
-		{/each}
+	<section class="band">
+		<div class="page-inner">
+			<div class="list">
+				{#each data.posts as post}
+					<article>
+						<p>{post.date}</p>
+						<h2><a href={`/blog/${post.slug}`}>{post.title}</a></h2>
+						<p>{post.excerpt}</p>
+						{#if post.tags?.length}
+							<div class="tags">
+								{#each post.tags as tag}
+									<a href={`/tags/${slugifyTag(tag)}`}>{tag}</a>
+								{/each}
+							</div>
+						{/if}
+					</article>
+				{/each}
+			</div>
+		</div>
 	</section>
 </div>
 
 <style>
 	.wrap {
-		max-width: 900px;
+		padding: 2.75rem 0 5rem;
+	}
+
+	.band {
+		width: 100%;
+		padding: 0.85rem 0;
+	}
+
+	.page-inner {
+		width: min(100%, var(--content-max));
 		margin: 0 auto;
-		padding: 4rem 1.5rem 5rem;
+		padding: 0 var(--page-padding);
 	}
 
 	header {
-		max-width: 42rem;
+		max-width: 58rem;
 	}
 
 	.eyebrow {
 		margin: 0 0 1rem;
-		font-size: 0.8rem;
-		font-weight: 700;
-		letter-spacing: 0.14em;
+		font-size: 0.9rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--primary);
 	}
 
 	h1 {
 		margin: 0;
-		font-size: clamp(2.6rem, 6vw, 4.8rem);
-		line-height: 0.96;
+		max-width: 13ch;
+		font-size: clamp(2.5rem, 3vw + 1rem, 3.5rem);
+		line-height: 1.1;
 	}
 
 	header p:last-child {
-		font-size: 1.05rem;
-		line-height: 1.7;
+		max-width: 46rem;
+		font-size: clamp(1.125rem, 0.4vw + 1rem, 1.25rem);
 		color: var(--muted-foreground);
 	}
 
@@ -83,14 +101,14 @@
 
 	.list {
 		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 1rem;
-		margin-top: 2rem;
 	}
 
 	article {
-		padding: 1.4rem;
+		padding: 1.6rem;
 		border: 1px solid var(--line);
-		border-radius: 1.5rem;
+		border-radius: 1.7rem;
 		background: var(--surface);
 		box-shadow: var(--shadow);
 	}
@@ -108,7 +126,7 @@
 
 	h2 {
 		margin-top: 0.35rem;
-		font-size: 1.6rem;
+		font-size: clamp(1.375rem, 1vw + 1rem, 1.75rem);
 	}
 
 	h2 a {
@@ -134,5 +152,11 @@
 		background: var(--accent-soft);
 		color: var(--primary);
 		text-decoration: none;
+	}
+
+	@media (max-width: 980px) {
+		.list {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

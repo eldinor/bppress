@@ -1,57 +1,113 @@
 <script lang="ts">
   import { page } from "$app/state";
   import "../app.css";
-  import favicon from "$lib/assets/favicon.svg";
 
   let { children } = $props();
 
-  const navigation = [
+  const navItems = [
     { href: "/", label: "Home" },
+    { href: "/projects", label: "Projects" },
     { href: "/blog", label: "Blog" },
-    { href: "/about", label: "About" },
     { href: "/showcase", label: "Showcase" },
-    { href: "/contact", label: "Contact" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" }
   ];
 
-  function isActive(href: string, pathname: string) {
+  let theme = $state<"dark" | "light">("dark");
+
+  const applyTheme = (nextTheme: "dark" | "light") => {
+    theme = nextTheme;
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem("theme", nextTheme);
+  };
+
+  const toggleTheme = () => {
+    applyTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  const isActive = (href: string, pathname: string) => {
     if (href === "/") {
       return pathname === "/";
     }
 
     return pathname === href || pathname.startsWith(`${href}/`);
-  }
+  };
 </script>
 
 <svelte:head>
-  <link rel="icon" href={favicon} />
+  <script>
+    const storedTheme = localStorage.getItem("theme");
+    const theme = storedTheme === "light" ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+  </script>
 </svelte:head>
 
-<div class="shell">
+<div class="site-shell">
   <header class="site-header">
-    <div class="header-inner">
+    <div class="shell-inner">
       <a class="brand" href="/">
-        <img class="brand-mark" src="/logo-babylonpress-GB-s.png" alt="BabylonPress logo" height="60" />
+        <span class="brand-mark">BP</span>
         <span class="brand-copy">
-          <strong>BP Press</strong>
-          <small>Ideas, scenes, and technical notes</small>
+          <strong>BabylonPress</strong>
+          <small>Dark-first product and publishing system</small>
         </span>
       </a>
 
-      <nav aria-label="Main navigation">
-        <ul class="nav-list">
-          {#each navigation as item}
-            <li>
-              <a
-                href={item.href}
-                class:active={isActive(item.href, page.url.pathname)}
-                aria-current={isActive(item.href, page.url.pathname) ? "page" : undefined}
-              >
-                {item.label}
-              </a>
-            </li>
-          {/each}
-        </ul>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        {#each navItems as item}
+          <a
+            href={item.href}
+            class:active={isActive(item.href, page.url.pathname)}
+            aria-current={isActive(item.href, page.url.pathname) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        {/each}
       </nav>
+
+      <div class="header-actions">
+        <button
+          class="theme-toggle"
+          type="button"
+          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          aria-pressed={theme === "light"}
+          onclick={toggleTheme}
+        >
+          {theme === "dark" ? "Light" : "Dark"}
+        </button>
+        <a class="primary-link" href="/contact">Get started</a>
+      </div>
+
+      <details class="mobile-nav">
+        <summary aria-label="Open navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </summary>
+        <div class="mobile-panel">
+          <button
+            class="theme-toggle mobile-theme-toggle"
+            type="button"
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            aria-pressed={theme === "light"}
+            onclick={toggleTheme}
+          >
+            {theme === "dark" ? "Light mode" : "Dark mode"}
+          </button>
+
+          {#each navItems as item}
+            <a
+              href={item.href}
+              class:active={isActive(item.href, page.url.pathname)}
+              aria-current={isActive(item.href, page.url.pathname) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          {/each}
+
+          <a class="primary-link mobile-primary" href="/contact">Get started</a>
+        </div>
+      </details>
     </div>
   </header>
 
@@ -60,14 +116,19 @@
   </main>
 
   <footer class="site-footer">
-    <div class="footer-inner">
+    <div class="shell-inner footer-grid">
       <div>
-        <strong>BP Press</strong>
-        <p>A small SvelteKit blog for writing, experiments, and Babylon.js posts.</p>
+        <strong>BabylonPress</strong>
+        <p>
+          A cohesive dark-first publishing site for product updates, technical stories, and
+          interactive showcase work.
+        </p>
       </div>
       <div class="footer-links">
-        <a href="/blog">Latest posts</a>
-        <a href="/showcase">Scene showcase</a>
+        <a href="/projects">Projects</a>
+        <a href="/blog">Blog</a>
+        <a href="/showcase">Showcase</a>
+        <a href="/about">About</a>
         <a href="/contact">Contact</a>
       </div>
     </div>
@@ -75,117 +136,194 @@
 </div>
 
 <style>
-  .shell {
-    min-height: 100vh;
-  }
-
   .site-header {
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 40;
+    background: var(--topbar-bg);
+    border-bottom: 1px solid var(--topbar-border);
     backdrop-filter: blur(18px);
-    background: color-mix(in srgb, var(--background) 88%, transparent);
-    border-bottom: 1px solid var(--line);
   }
 
-  .header-inner,
-  .footer-inner {
-    max-width: 1120px;
+  .shell-inner {
+    width: min(100%, var(--content-max));
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 0 var(--page-padding);
   }
 
-  .header-inner {
+  .site-header .shell-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
-    min-height: 78px;
+    gap: 1rem;
+    min-height: 4.75rem;
   }
 
   .brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.9rem;
+    gap: 0.75rem;
+    color: var(--text-primary);
     text-decoration: none;
   }
 
   .brand-mark {
-    display: block;
-    width: auto;
-    height: 80px;
-    object-fit: contain;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 0.9rem;
-    box-shadow: var(--shadow-subtle);
+    background: linear-gradient(135deg, var(--primary-main), var(--secondary-main));
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 12px 24px rgba(25, 118, 210, 0.24);
   }
 
   .brand-copy {
-    display: flex;
-    flex-direction: column;
+    display: grid;
   }
 
   .brand-copy strong {
-    font-size: 1rem;
+    font-size: 0.98rem;
   }
 
   .brand-copy small {
-    margin-top: 0.15rem;
-    color: var(--muted-foreground);
-    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
   }
 
-  .nav-list {
+  .desktop-nav {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.55rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    align-items: center;
+    gap: 1.2rem;
   }
 
-  .nav-list a {
+  .desktop-nav a,
+  .mobile-panel a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .desktop-nav a.active,
+  .mobile-panel a.active,
+  .desktop-nav a:hover,
+  .mobile-panel a:hover {
+    color: var(--primary-light);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .theme-toggle,
+  .primary-link {
     display: inline-flex;
     align-items: center;
-    padding: 0.72rem 1rem;
-    border: 1px solid transparent;
-    border-radius: 999px;
+    justify-content: center;
+    min-height: 2.875rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--button-radius);
     text-decoration: none;
-    color: var(--muted-foreground);
-    transition:
-      background 160ms ease,
-      color 160ms ease,
-      border-color 160ms ease;
+    font-size: 0.95rem;
+    font-weight: 600;
   }
 
-  .nav-list a:hover,
-  .nav-list a.active {
-    color: var(--text);
-    border-color: var(--line);
-    background: var(--accent);
+  .theme-toggle {
+    border: 1px solid var(--divider-strong);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-primary);
+    cursor: pointer;
   }
 
-  .site-main {
-    padding-bottom: 3rem;
+  .theme-toggle:hover {
+    border-color: rgba(66, 165, 245, 0.4);
+    background: rgba(66, 165, 245, 0.1);
+  }
+
+  .primary-link {
+    border: 1px solid transparent;
+    background: var(--primary-main);
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(25, 118, 210, 0.24);
+  }
+
+  .primary-link:hover {
+    background: var(--primary-dark);
+    color: #fff;
+  }
+
+  .mobile-nav {
+    display: none;
+    position: relative;
+  }
+
+  .mobile-nav summary {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25rem;
+    width: 2.875rem;
+    height: 2.875rem;
+    padding: 0.75rem;
+    border: 1px solid var(--divider-strong);
+    border-radius: var(--button-radius);
+    background: var(--background-paper);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .mobile-nav summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-nav summary span {
+    width: 100%;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--text-primary);
+  }
+
+  .mobile-panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.75rem);
+    display: grid;
+    gap: 0.75rem;
+    width: min(18rem, calc(100vw - 2rem));
+    padding: 1rem;
+    border: 1px solid var(--divider);
+    border-radius: var(--card-radius);
+    background: var(--surface-strong);
+    box-shadow: var(--card-shadow);
+  }
+
+  .mobile-theme-toggle,
+  .mobile-primary {
+    width: 100%;
   }
 
   .site-footer {
-    border-top: 1px solid var(--line);
-    background: color-mix(in srgb, var(--card) 86%, transparent);
+    border-top: 1px solid var(--divider);
+    background: rgba(255, 255, 255, 0.02);
   }
 
-  .footer-inner {
+  .footer-grid {
     display: flex;
     justify-content: space-between;
     gap: 2rem;
     padding-top: 2rem;
-    padding-bottom: 2.5rem;
+    padding-bottom: 2rem;
   }
 
-  .footer-inner p {
-    margin: 0.5rem 0 0;
+  .footer-grid p {
+    margin-top: 0.75rem;
     max-width: 34rem;
-    color: var(--muted-foreground);
-    line-height: 1.7;
+    color: var(--text-secondary);
   }
 
   .footer-links {
@@ -196,20 +334,22 @@
   }
 
   .footer-links a {
+    color: var(--text-secondary);
     text-decoration: none;
-    color: var(--muted-foreground);
   }
 
-  @media (max-width: 820px) {
-    .header-inner,
-    .footer-inner {
-      flex-direction: column;
-      align-items: flex-start;
+  @media (max-width: 899px) {
+    .desktop-nav,
+    .header-actions {
+      display: none;
     }
 
-    .header-inner {
-      padding-top: 1rem;
-      padding-bottom: 1rem;
+    .mobile-nav {
+      display: block;
+    }
+
+    .footer-grid {
+      flex-direction: column;
     }
   }
 </style>

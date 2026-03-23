@@ -37,10 +37,10 @@
 </div>
 
 <style>
-	.wrap {
-		max-width: 880px;
+.wrap {
+		width: min(100%, calc(var(--content-narrow) + (var(--page-padding) * 2)));
 		margin: 0 auto;
-		padding: 2rem 1.5rem 5rem;
+		padding: 2rem var(--page-padding) 5rem;
 	}
 
 	.back {
@@ -51,7 +51,7 @@
 	}
 
 	.post {
-		padding: 2rem;
+		padding: 2.2rem;
 		border: 1px solid var(--line);
 		border-radius: 2rem;
 		background: var(--surface);
@@ -64,20 +64,20 @@
 	}
 
 	header p:first-child {
-		font-size: 0.9rem;
-		color: var(--accent);
+		font-size: 0.92rem;
+		font-weight: 500;
+		color: var(--primary);
 	}
 
 	header h1 {
 		margin-top: 0.5rem;
-		font-size: clamp(2.4rem, 5vw, 4.2rem);
-		line-height: 0.98;
+		font-size: clamp(2.5rem, 3vw + 1rem, 3.5rem);
+		line-height: 1.1;
 	}
 
 	header p:last-child {
 		margin-top: 1rem;
-		font-size: 1.08rem;
-		line-height: 1.7;
+		font-size: clamp(1.125rem, 0.4vw + 1rem, 1.25rem);
 		color: var(--muted-foreground);
 	}
 
@@ -100,8 +100,6 @@
 
 	.content {
 		margin-top: 2rem;
-		font-size: 1.05rem;
-		line-height: 1.8;
 	}
 
 	.content :global(h1),
