@@ -61,6 +61,8 @@ function serializeProjectsPageContent(content: ProjectsPageContent) {
 \t\t\ttitle: ${formatString(item.title, '\t\t\t')},
 \t\t\tstatus: ${formatString(item.status, '\t\t\t')},
 \t\t\tdescription: ${formatString(item.description, '\t\t\t')},
+\t\t\tmode: ${formatString(item.mode)},
+\t\t\tactionLabel: ${formatString(item.actionLabel, '\t\t\t')},
 \t\t\thref: ${formatString(item.href)}
 \t\t}`
 		)
@@ -70,6 +72,8 @@ return `export type ProjectEntry = {
 \ttitle: string;
 \tstatus: string;
 \tdescription: string;
+\tmode: 'link' | 'placeholder';
+\tactionLabel: string;
 \thref: string;
 };
 
@@ -216,6 +220,8 @@ export function createEmptyProject(): ProjectEntry {
 		title: 'New Project',
 		status: 'Draft',
 		description: 'Describe the project here.',
+		mode: 'link',
+		actionLabel: 'Read more',
 		href: '/showcase'
 	};
 }

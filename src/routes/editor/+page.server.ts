@@ -73,6 +73,8 @@ export const actions: Actions = {
 		const titles = form.getAll('projectTitle').map(String);
 		const statuses = form.getAll('projectStatus').map(String);
 		const descriptions = form.getAll('projectDescription').map(String);
+		const modes = form.getAll('projectMode').map(String);
+		const actionLabels = form.getAll('projectActionLabel').map(String);
 		const hrefs = form.getAll('projectHref').map(String);
 
 		try {
@@ -82,9 +84,16 @@ export const actions: Actions = {
 						title: title.trim(),
 						status: (statuses[index] ?? '').trim(),
 						description: (descriptions[index] ?? '').trim(),
+						mode: (modes[index] === 'placeholder' ? 'placeholder' : 'link') as
+							| 'link'
+							| 'placeholder',
+						actionLabel: (actionLabels[index] ?? '').trim(),
 						href: (hrefs[index] ?? '').trim()
 					}))
-					.filter((item) => item.title || item.status || item.description || item.href),
+					.filter(
+						(item) =>
+							item.title || item.status || item.description || item.actionLabel || item.href
+					),
 				callout: {
 					eyebrow: String(form.get('calloutEyebrow') ?? ''),
 					title: String(form.get('calloutTitle') ?? ''),

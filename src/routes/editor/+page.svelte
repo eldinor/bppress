@@ -1,5 +1,10 @@
 <script lang="ts">
 	let { data, form } = $props();
+
+	const projectModes = [
+		{ value: 'link', label: 'Linked project' },
+		{ value: 'placeholder', label: 'Placeholder card' }
+	];
 </script>
 
 <svelte:head>
@@ -133,9 +138,31 @@
 									<textarea name="projectDescription" rows="4">{project.description}</textarea>
 								</label>
 
+								<div class="field-row">
+									<label>
+										<span>Card type</span>
+										<select name="projectMode">
+											{#each projectModes as mode}
+												<option value={mode.value} selected={project.mode === mode.value}>
+													{mode.label}
+												</option>
+											{/each}
+										</select>
+									</label>
+
+									<label>
+										<span>Action label</span>
+										<input name="projectActionLabel" value={project.actionLabel} />
+									</label>
+								</div>
+
 								<label>
-									<span>Read more link</span>
-									<input name="projectHref" value={project.href} />
+									<span>Link URL</span>
+									<input
+										name="projectHref"
+										value={project.href}
+										placeholder={project.mode === 'placeholder' ? 'Leave empty for placeholders' : '/showcase'}
+									/>
 								</label>
 
 								<div class="inline-form">
@@ -338,6 +365,7 @@
 	}
 
 	input,
+	select,
 	textarea {
 		width: 100%;
 		padding: 0.9rem 1rem;

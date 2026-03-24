@@ -15,11 +15,15 @@
 		<div class="page-inner">
 			<div class="project-grid">
 				{#each projectsPageContent.items as project}
-					<article class="project-card">
+					<article class:placeholder-card={project.mode === 'placeholder'} class="project-card">
 						<p class="status">{project.status}</p>
 						<h2>{project.title}</h2>
 						<p class="project-description">{project.description}</p>
-						<a class="button project-button" href={project.href}>Read more</a>
+						{#if project.mode === 'link'}
+							<a class="button project-button" href={project.href}>{project.actionLabel}</a>
+						{:else}
+							<span class="button project-button placeholder-button">{project.actionLabel}</span>
+						{/if}
 					</article>
 				{/each}
 			</div>
@@ -96,6 +100,12 @@
 		padding: 1.7rem;
 	}
 
+	.placeholder-card {
+		background:
+			linear-gradient(180deg, color-mix(in srgb, var(--surface) 92%, white), color-mix(in srgb, var(--accent) 18%, white));
+		border-style: dashed;
+	}
+
 	.project-card h2 {
 		margin-top: 0.55rem;
 		font-size: clamp(1.375rem, 1vw + 1rem, 1.75rem);
@@ -108,6 +118,11 @@
 	.project-button {
 		margin-top: 0.35rem;
 		justify-self: start;
+	}
+
+	.placeholder-button {
+		cursor: default;
+		opacity: 0.82;
 	}
 
 	.callout {
