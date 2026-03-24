@@ -1,6 +1,13 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import type {
+	FeatureEntry,
+	HomePageContent,
+	StatEntry,
+	TestimonialEntry
+} from '$lib/content/home-page';
 import type { ProjectEntry, ProjectsPageContent } from '$lib/content/projects';
+import type { InfoCard, StaticPageContent, StaticPagesContent } from '$lib/content/static-pages';
 
 export type EditablePost = {
 	slug: string;
@@ -8,11 +15,14 @@ export type EditablePost = {
 	excerpt: string;
 	date: string;
 	tags: string[];
+	cover: string;
 	body: string;
 };
 
 const POSTS_DIR = path.join(process.cwd(), 'src', 'lib', 'posts');
 const PROJECTS_FILE = path.join(process.cwd(), 'src', 'lib', 'content', 'projects.ts');
+const STATIC_PAGES_FILE = path.join(process.cwd(), 'src', 'lib', 'content', 'static-pages.ts');
+const HOME_PAGE_FILE = path.join(process.cwd(), 'src', 'lib', 'content', 'home-page.ts');
 
 function slugify(value: string) {
 	return value
@@ -46,7 +56,8 @@ function serializePost(post: EditablePost) {
 \t\ttitle: ${formatString(post.title, '\t\t')},
 \t\texcerpt: ${formatString(post.excerpt, '\t\t')},
 \t\tdate: ${JSON.stringify(post.date)},
-\t\ttags: ${formatStringArray(post.tags)}
+\t\ttags: ${formatStringArray(post.tags)},
+\t\tcover: ${formatString(post.cover)}
 \t};
 </script>
 
@@ -61,8 +72,6 @@ function serializeProjectsPageContent(content: ProjectsPageContent) {
 \t\t\ttitle: ${formatString(item.title, '\t\t\t')},
 \t\t\tstatus: ${formatString(item.status, '\t\t\t')},
 \t\t\tdescription: ${formatString(item.description, '\t\t\t')},
-\t\t\tmode: ${formatString(item.mode)},
-\t\t\tactionLabel: ${formatString(item.actionLabel, '\t\t\t')},
 \t\t\thref: ${formatString(item.href)}
 \t\t}`
 		)
@@ -72,8 +81,6 @@ return `export type ProjectEntry = {
 \ttitle: string;
 \tstatus: string;
 \tdescription: string;
-\tmode: 'link' | 'placeholder';
-\tactionLabel: string;
 \thref: string;
 };
 
@@ -107,6 +114,240 @@ ${items}
 `;
 }
 
+function serializeStaticPage(page: StaticPageContent, indent = '\t') {
+	const cards = page.cards
+		.map(
+			(card) => `${indent}\t\t{
+${indent}\t\t\ttitle: ${formatString(card.title, `${indent}\t\t\t`)},
+${indent}\t\t\tdescription: ${formatString(card.description, `${indent}\t\t\t`)}
+${indent}\t\t}`
+		)
+		.join(',\n');
+
+	return `${indent}{
+${indent}\tmetaTitle: ${formatString(page.metaTitle, `${indent}\t`)},
+${indent}\tmetaDescription: ${formatString(page.metaDescription, `${indent}\t`)},
+${indent}\teyebrow: ${formatString(page.eyebrow, `${indent}\t`)},
+${indent}\ttitle: ${formatString(page.title, `${indent}\t`)},
+${indent}\tlede: ${formatString(page.lede, `${indent}\t`)},
+${indent}\tcards: [
+${cards}
+${indent}\t]
+${indent}}`;
+}
+
+function serializeStaticPagesContent(content: StaticPagesContent) {
+	return `export type InfoCard = {
+\ttitle: string;
+\tdescription: string;
+};
+
+export type StaticPageContent = {
+\tmetaTitle: string;
+\tmetaDescription: string;
+\teyebrow: string;
+\ttitle: string;
+\tlede: string;
+\tcards: InfoCard[];
+};
+
+export type StaticPagesContent = {
+\tabout: StaticPageContent;
+\tcontact: StaticPageContent;
+};
+
+export const staticPagesContent: StaticPagesContent = {
+\tabout: ${serializeStaticPage(content.about)},
+\tcontact: ${serializeStaticPage(content.contact)}
+};
+`;
+}
+
+function serializeFeatureArray(values: FeatureEntry[], indent = '\t\t') {
+	return values
+		.map(
+			(item) => `${indent}{
+${indent}\ttitle: ${formatString(item.title, `${indent}\t`)},
+${indent}\tdescription: ${formatString(item.description, `${indent}\t`)}
+${indent}}`
+		)
+		.join(',\n');
+}
+
+function serializeStatsArray(values: StatEntry[], indent = '\t\t') {
+	return values
+		.map(
+			(item) => `${indent}{
+${indent}\tvalue: ${formatString(item.value, `${indent}\t`)},
+${indent}\tlabel: ${formatString(item.label, `${indent}\t`)}
+${indent}}`
+		)
+		.join(',\n');
+}
+
+function serializeTestimonialsArray(values: TestimonialEntry[], indent = '\t\t') {
+	return values
+		.map(
+			(item) => `${indent}{
+${indent}\tquote: ${formatString(item.quote, `${indent}\t`)},
+${indent}\tname: ${formatString(item.name, `${indent}\t`)},
+${indent}\trole: ${formatString(item.role, `${indent}\t`)},
+${indent}\tcompany: ${formatString(item.company, `${indent}\t`)}
+${indent}}`
+		)
+		.join(',\n');
+}
+
+function serializeStringList(values: string[], indent = '\t\t') {
+	if (!values.length) {
+		return '[]';
+	}
+
+	return `[
+${values.map((value) => `${indent}${formatString(value)}`).join(',\n')}
+\t\t]`;
+}
+
+function serializeHomePageContent(content: HomePageContent) {
+	return `export type FeatureEntry = {
+\ttitle: string;
+\tdescription: string;
+};
+
+export type StatEntry = {
+\tvalue: string;
+\tlabel: string;
+};
+
+export type TestimonialEntry = {
+\tquote: string;
+\tname: string;
+\trole: string;
+\tcompany: string;
+};
+
+export type HomePageContent = {
+\tmetaTitle: string;
+\tmetaDescription: string;
+\thero: {
+\t\teyebrow: string;
+\t\ttitle: string;
+\t\tdescription: string;
+\t\tprimaryLabel: string;
+\t\tprimaryHref: string;
+\t\tsecondaryLabel: string;
+\t\tsecondaryHref: string;
+\t\tpreviewPrimaryLabel: string;
+\t\tpreviewPrimaryText: string;
+\t\tpreviewMetricLabel: string;
+\t\tpreviewMetricText: string;
+\t\tpreviewCode: string;
+\t\tpreviewList: string[];
+\t};
+\ttrust: {
+\t\tlabel: string;
+\t\tlogos: string[];
+\t};
+\tproducts: {
+\t\teyebrow: string;
+\t\ttitle: string;
+\t\tdescription: string;
+\t\tfeatures: FeatureEntry[];
+\t};
+\twhyChoose: {
+\t\teyebrow: string;
+\t\ttitle: string;
+\t\tdescription: string;
+\t\tadvantages: string[];
+\t};
+\tshowcase: {
+\t\teyebrow: string;
+\t\ttitle: string;
+\t\tdescription: string;
+\t\tlargeLabel: string;
+\t\tlargeText: string;
+\t\tmetricOneLabel: string;
+\t\tmetricOneText: string;
+\t\tmetricTwoLabel: string;
+\t\tmetricTwoText: string;
+\t};
+\tcommunity: {
+\t\teyebrow: string;
+\t\ttitle: string;
+\t\tstats: StatEntry[];
+\t};
+\ttestimonials: {
+\t\teyebrow: string;
+\t\ttitle: string;
+\t\titems: TestimonialEntry[];
+\t};
+};
+
+export const homePageContent: HomePageContent = {
+\tmetaTitle: ${formatString(content.metaTitle)},
+\tmetaDescription: ${formatString(content.metaDescription)},
+\thero: {
+\t\teyebrow: ${formatString(content.hero.eyebrow, '\t\t')},
+\t\ttitle: ${formatString(content.hero.title, '\t\t')},
+\t\tdescription: ${formatString(content.hero.description, '\t\t')},
+\t\tprimaryLabel: ${formatString(content.hero.primaryLabel)},
+\t\tprimaryHref: ${formatString(content.hero.primaryHref)},
+\t\tsecondaryLabel: ${formatString(content.hero.secondaryLabel)},
+\t\tsecondaryHref: ${formatString(content.hero.secondaryHref)},
+\t\tpreviewPrimaryLabel: ${formatString(content.hero.previewPrimaryLabel)},
+\t\tpreviewPrimaryText: ${formatString(content.hero.previewPrimaryText, '\t\t')},
+\t\tpreviewMetricLabel: ${formatString(content.hero.previewMetricLabel)},
+\t\tpreviewMetricText: ${formatString(content.hero.previewMetricText, '\t\t')},
+\t\tpreviewCode: ${formatString(content.hero.previewCode)},
+\t\tpreviewList: ${serializeStringList(content.hero.previewList)}
+\t},
+\ttrust: {
+\t\tlabel: ${formatString(content.trust.label, '\t\t')},
+\t\tlogos: ${serializeStringList(content.trust.logos)}
+\t},
+\tproducts: {
+\t\teyebrow: ${formatString(content.products.eyebrow)},
+\t\ttitle: ${formatString(content.products.title, '\t\t')},
+\t\tdescription: ${formatString(content.products.description, '\t\t')},
+\t\tfeatures: [
+${serializeFeatureArray(content.products.features)}
+\t\t]
+\t},
+\twhyChoose: {
+\t\teyebrow: ${formatString(content.whyChoose.eyebrow)},
+\t\ttitle: ${formatString(content.whyChoose.title, '\t\t')},
+\t\tdescription: ${formatString(content.whyChoose.description, '\t\t')},
+\t\tadvantages: ${serializeStringList(content.whyChoose.advantages)}
+\t},
+\tshowcase: {
+\t\teyebrow: ${formatString(content.showcase.eyebrow)},
+\t\ttitle: ${formatString(content.showcase.title, '\t\t')},
+\t\tdescription: ${formatString(content.showcase.description, '\t\t')},
+\t\tlargeLabel: ${formatString(content.showcase.largeLabel)},
+\t\tlargeText: ${formatString(content.showcase.largeText, '\t\t')},
+\t\tmetricOneLabel: ${formatString(content.showcase.metricOneLabel)},
+\t\tmetricOneText: ${formatString(content.showcase.metricOneText, '\t\t')},
+\t\tmetricTwoLabel: ${formatString(content.showcase.metricTwoLabel)},
+\t\tmetricTwoText: ${formatString(content.showcase.metricTwoText, '\t\t')}
+\t},
+\tcommunity: {
+\t\teyebrow: ${formatString(content.community.eyebrow)},
+\t\ttitle: ${formatString(content.community.title, '\t\t')},
+\t\tstats: [
+${serializeStatsArray(content.community.stats)}
+\t\t]
+\t},
+\ttestimonials: {
+\t\teyebrow: ${formatString(content.testimonials.eyebrow)},
+\t\ttitle: ${formatString(content.testimonials.title, '\t\t')},
+\t\titems: [
+${serializeTestimonialsArray(content.testimonials.items)}
+\t\t]
+\t}
+};
+`;
+}
+
 export function createEmptyPost(): EditablePost {
 	return {
 		slug: '',
@@ -114,6 +355,7 @@ export function createEmptyPost(): EditablePost {
 		excerpt: '',
 		date: new Date().toISOString().slice(0, 10),
 		tags: [],
+		cover: '',
 		body: '# New Post\n\nStart writing here.'
 	};
 }
@@ -141,6 +383,7 @@ export async function readEditablePost(slug: string): Promise<EditablePost> {
 		excerpt: string;
 		date: string;
 		tags?: string[];
+		cover?: string;
 	}>(metadataMatch[1]);
 
 	const body = source.replace(/^<script module lang="ts">[\s\S]*?<\/script>\s*/m, '').trim();
@@ -151,6 +394,7 @@ export async function readEditablePost(slug: string): Promise<EditablePost> {
 		excerpt: metadata.excerpt,
 		date: metadata.date,
 		tags: metadata.tags ?? [],
+		cover: metadata.cover ?? '',
 		body
 	};
 }
@@ -220,8 +464,41 @@ export function createEmptyProject(): ProjectEntry {
 		title: 'New Project',
 		status: 'Draft',
 		description: 'Describe the project here.',
-		mode: 'link',
-		actionLabel: 'Read more',
 		href: '/showcase'
 	};
+}
+
+export async function readStaticPagesContent(): Promise<StaticPagesContent> {
+	const source = await fs.readFile(STATIC_PAGES_FILE, 'utf8');
+	const match = source.match(/export const staticPagesContent: StaticPagesContent = (\{[\s\S]*\});/);
+	if (!match) {
+		throw new Error('Could not parse static pages content.');
+	}
+
+	return evaluateLiteral<StaticPagesContent>(match[1]);
+}
+
+export async function saveStaticPagesContent(content: StaticPagesContent) {
+	await fs.writeFile(STATIC_PAGES_FILE, serializeStaticPagesContent(content), 'utf8');
+}
+
+export function createEmptyInfoCard(): InfoCard {
+	return {
+		title: 'New Card',
+		description: 'Add supporting page copy here.'
+	};
+}
+
+export async function readHomePageContent(): Promise<HomePageContent> {
+	const source = await fs.readFile(HOME_PAGE_FILE, 'utf8');
+	const match = source.match(/export const homePageContent: HomePageContent = (\{[\s\S]*\});/);
+	if (!match) {
+		throw new Error('Could not parse home page content.');
+	}
+
+	return evaluateLiteral<HomePageContent>(match[1]);
+}
+
+export async function saveHomePageContent(content: HomePageContent) {
+	await fs.writeFile(HOME_PAGE_FILE, serializeHomePageContent(content), 'utf8');
 }

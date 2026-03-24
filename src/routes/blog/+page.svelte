@@ -32,6 +32,9 @@
 			<div class="list">
 				{#each data.posts as post}
 					<article>
+						{#if post.cover}
+							<img class="post-cover" src={post.cover} alt="" loading="lazy" />
+						{/if}
 						<p>{post.date}</p>
 						<h2><a href={`/blog/${post.slug}`}>{post.title}</a></h2>
 						<p>{post.excerpt}</p>
@@ -106,11 +109,22 @@
 	}
 
 	article {
+		overflow: hidden;
 		padding: 1.6rem;
 		border: 1px solid var(--line);
 		border-radius: 1.7rem;
 		background: var(--surface);
 		box-shadow: var(--shadow);
+	}
+
+	.post-cover {
+		display: block;
+		width: calc(100% + 3.2rem);
+		max-width: none;
+		margin: -1.6rem -1.6rem 1.2rem;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		border-bottom: 1px solid var(--line);
 	}
 
 	article p,

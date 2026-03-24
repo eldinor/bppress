@@ -1,82 +1,22 @@
 <script lang="ts">
-  const logos = ["Northstar", "Datapoint", "Aperture", "Relay", "Granite", "Monarch"];
-
-  const features = [
-    {
-      title: "Core Components",
-      description: "Ready-to-use UI building blocks for fast delivery across product surfaces and landing pages."
-    },
-    {
-      title: "Advanced Components",
-      description: "Data-heavy modules and workflow-ready patterns for teams building beyond the basics."
-    },
-    {
-      title: "Templates",
-      description: "Prebuilt starting points that help teams move from idea to launch with less setup friction."
-    },
-    {
-      title: "Design Kits",
-      description: "A shared system for design and engineering so decisions stay aligned while projects grow."
-    }
-  ];
-
-  const advantages = [
-    "Timeless aesthetics",
-    "Intuitive customization",
-    "Strong documentation",
-    "Accessibility-first approach"
-  ];
-
-  const stats = [
-    { value: "5.8M", label: "weekly downloads" },
-    { value: "93.9k", label: "GitHub stars" },
-    { value: "3k", label: "contributors" },
-    { value: "120+", label: "countries in the community" }
-  ];
-
-  const testimonials = [
-    {
-      quote: "We shipped a cleaner product surface in days, not weeks.",
-      name: "Anika Patel",
-      role: "Product Design Lead",
-      company: "Northstar"
-    },
-    {
-      quote: "The system feels structured enough for enterprise work without slowing the team down.",
-      name: "Jon Mercer",
-      role: "Frontend Engineering Manager",
-      company: "Relay"
-    },
-    {
-      quote: "The balance of polish and flexibility made it easy to scale across marketing and docs.",
-      name: "Mila Chen",
-      role: "Developer Experience Director",
-      company: "Granite"
-    }
-  ];
+  import { homePageContent } from '$lib/content/home-page';
 </script>
 
 <svelte:head>
-  <title>BP Press</title>
-  <meta
-    name="description"
-    content="Move faster with intuitive UI tools built around a polished, production-ready component system."
-  />
+  <title>{homePageContent.metaTitle}</title>
+  <meta name="description" content={homePageContent.metaDescription} />
 </svelte:head>
 
 <div class="frontpage">
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">Production-ready UI foundation</p>
-        <h1>Move faster with intuitive UI tools</h1>
-        <p class="hero-text">
-          Build polished, production-ready interfaces with a flexible component system and strong
-          customization foundations.
-        </p>
+        <p class="eyebrow">{homePageContent.hero.eyebrow}</p>
+        <h1>{homePageContent.hero.title}</h1>
+        <p class="hero-text">{homePageContent.hero.description}</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="/contact">Get started</a>
-          <a class="button button-secondary" href="/blog">View docs</a>
+          <a class="button button-primary" href={homePageContent.hero.primaryHref}>{homePageContent.hero.primaryLabel}</a>
+          <a class="button button-secondary" href={homePageContent.hero.secondaryHref}>{homePageContent.hero.secondaryLabel}</a>
         </div>
       </div>
 
@@ -88,21 +28,20 @@
         </div>
         <div class="visual-grid">
           <article class="preview-card preview-primary">
-            <p>Component coverage</p>
-            <strong>Ready for product, docs, and dashboard flows</strong>
+            <p>{homePageContent.hero.previewPrimaryLabel}</p>
+            <strong>{homePageContent.hero.previewPrimaryText}</strong>
           </article>
           <article class="preview-card preview-metric">
-            <p>Theme tokens</p>
-            <strong>Palette, spacing, and responsive rules in one place</strong>
+            <p>{homePageContent.hero.previewMetricLabel}</p>
+            <strong>{homePageContent.hero.previewMetricText}</strong>
           </article>
           <article class="preview-card preview-code">
-            <code>Grid + Container + Stack = clean delivery</code>
+            <code>{homePageContent.hero.previewCode}</code>
           </article>
           <article class="preview-card preview-list">
-            <span>Core</span>
-            <span>Advanced</span>
-            <span>Templates</span>
-            <span>Design Kits</span>
+            {#each homePageContent.hero.previewList as item}
+              <span>{item}</span>
+            {/each}
           </article>
         </div>
       </div>
@@ -111,9 +50,9 @@
 
   <section class="trust-strip">
     <div class="container trust-inner">
-      <p>Trusted by product teams worldwide</p>
+      <p>{homePageContent.trust.label}</p>
       <div class="logo-row" aria-label="Trusted teams">
-        {#each logos as logo}
+        {#each homePageContent.trust.logos as logo}
           <span>{logo}</span>
         {/each}
       </div>
@@ -123,16 +62,13 @@
   <section class="section" id="products">
     <div class="container">
       <div class="section-heading">
-        <p class="eyebrow">Product overview</p>
-        <h2>Main product pillars built for shipping fast</h2>
-        <p class="section-copy">
-          A clean, component-led system with enough depth for technical teams and enough polish
-          for customer-facing work.
-        </p>
+        <p class="eyebrow">{homePageContent.products.eyebrow}</p>
+        <h2>{homePageContent.products.title}</h2>
+        <p class="section-copy">{homePageContent.products.description}</p>
       </div>
 
       <div class="feature-grid">
-        {#each features as feature}
+        {#each homePageContent.products.features as feature}
           <article class="card feature-card">
             <h3>{feature.title}</h3>
             <p>{feature.description}</p>
@@ -145,16 +81,13 @@
   <section class="section section-soft">
     <div class="container choose-grid">
       <div class="section-heading compact">
-        <p class="eyebrow">Why choose us</p>
-        <h2>Built for clarity, scale, and customization</h2>
-        <p class="section-copy">
-          The experience stays calm and readable while giving teams enough range to build serious
-          product surfaces.
-        </p>
+        <p class="eyebrow">{homePageContent.whyChoose.eyebrow}</p>
+        <h2>{homePageContent.whyChoose.title}</h2>
+        <p class="section-copy">{homePageContent.whyChoose.description}</p>
       </div>
 
       <div class="advantage-grid">
-        {#each advantages as advantage}
+        {#each homePageContent.whyChoose.advantages as advantage}
           <article class="card advantage-card">
             <span class="advantage-dot"></span>
             <h3>{advantage}</h3>
@@ -167,27 +100,24 @@
   <section class="section showcase-section" id="docs">
     <div class="container showcase-grid">
       <div class="section-heading compact">
-        <p class="eyebrow">Showcase</p>
-        <h2>Visual proof that the system feels polished in production</h2>
-        <p class="section-copy">
-          Large surfaces, measured spacing, and clear hierarchy make the front page feel ready for
-          real product work instead of a placeholder landing page.
-        </p>
+        <p class="eyebrow">{homePageContent.showcase.eyebrow}</p>
+        <h2>{homePageContent.showcase.title}</h2>
+        <p class="section-copy">{homePageContent.showcase.description}</p>
       </div>
 
       <div class="showcase-frame">
         <div class="showcase-panel showcase-panel-large">
-          <span>Enterprise-ready layout</span>
-          <strong>Consistent containers, balanced typography, and focused CTA paths.</strong>
+          <span>{homePageContent.showcase.largeLabel}</span>
+          <strong>{homePageContent.showcase.largeText}</strong>
         </div>
         <div class="showcase-metrics">
           <div class="showcase-panel">
-            <span>Load path</span>
-            <strong>Clear navigation and section rhythm</strong>
+            <span>{homePageContent.showcase.metricOneLabel}</span>
+            <strong>{homePageContent.showcase.metricOneText}</strong>
           </div>
           <div class="showcase-panel">
-            <span>Customization</span>
-            <strong>Theme-friendly and component-driven</strong>
+            <span>{homePageContent.showcase.metricTwoLabel}</span>
+            <strong>{homePageContent.showcase.metricTwoText}</strong>
           </div>
         </div>
       </div>
@@ -197,12 +127,12 @@
   <section class="section" id="pricing">
     <div class="container">
       <div class="section-heading">
-        <p class="eyebrow">Community</p>
-        <h2>Signals of scale and credibility</h2>
+        <p class="eyebrow">{homePageContent.community.eyebrow}</p>
+        <h2>{homePageContent.community.title}</h2>
       </div>
 
       <div class="stats-grid">
-        {#each stats as stat}
+        {#each homePageContent.community.stats as stat}
           <article class="card stat-card">
             <strong>{stat.value}</strong>
             <span>{stat.label}</span>
@@ -215,12 +145,12 @@
   <section class="section section-soft">
     <div class="container">
       <div class="section-heading">
-        <p class="eyebrow">Testimonials</p>
-        <h2>Practical validation from teams shipping product work</h2>
+        <p class="eyebrow">{homePageContent.testimonials.eyebrow}</p>
+        <h2>{homePageContent.testimonials.title}</h2>
       </div>
 
       <div class="testimonial-grid">
-        {#each testimonials as testimonial}
+        {#each homePageContent.testimonials.items as testimonial}
           <article class="card testimonial-card">
             <p class="quote">{testimonial.quote}</p>
             <strong>{testimonial.name}</strong>

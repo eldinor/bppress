@@ -140,6 +140,7 @@
     position: sticky;
     top: 0;
     z-index: 40;
+    width: 100%;
     background: var(--topbar-bg);
     border-bottom: 1px solid var(--topbar-border);
     backdrop-filter: blur(18px);
@@ -152,6 +153,8 @@
   }
 
   .site-header .shell-inner {
+    width: 100%;
+    max-width: none;
     display: flex;
     align-items: center;
     justify-content: space-between;

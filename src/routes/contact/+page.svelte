@@ -1,43 +1,32 @@
+<script lang="ts">
+	import { staticPagesContent } from '$lib/content/static-pages';
+
+	const contactPageContent = staticPagesContent.contact;
+</script>
+
 <svelte:head>
-	<title>Contact | BP Press</title>
-	<meta
-		name="description"
-		content="Ways to get in touch about collaborations, writing, and Babylon.js experiments."
-	/>
+	<title>{contactPageContent.metaTitle}</title>
+	<meta name="description" content={contactPageContent.metaDescription} />
 </svelte:head>
 
 <div class="page-wrap">
 	<section class="band">
 		<div class="page-inner intro">
-			<p class="eyebrow">Contact</p>
-			<h1>Open to conversations about writing, product work, and interactive web ideas.</h1>
-			<p class="lede">
-				This page is a lightweight placeholder for now, but it gives the site a clear home for
-				future contact details and collaboration links.
-			</p>
+			<p class="eyebrow">{contactPageContent.eyebrow}</p>
+			<h1>{contactPageContent.title}</h1>
+			<p class="lede">{contactPageContent.lede}</p>
 		</div>
 	</section>
 
 	<section class="band">
 		<div class="page-inner">
 			<div class="contact-grid">
-				<article class="card">
-					<h2>Editorial</h2>
-					<p>Use this space for writing inquiries, guest posts, or publication-related messages.</p>
-				</article>
-
-				<article class="card">
-					<h2>Interactive work</h2>
-					<p>Use this area for scene demos, technical prototypes, and Babylon.js collaboration notes.</p>
-				</article>
-
-				<article class="card">
-					<h2>Next step</h2>
-					<p>
-						When you are ready, replace this copy with a real email address, social links, or a contact
-						form endpoint.
-					</p>
-				</article>
+				{#each contactPageContent.cards as card}
+					<article class="card">
+						<h2>{card.title}</h2>
+						<p>{card.description}</p>
+					</article>
+				{/each}
 			</div>
 		</div>
 	</section>
